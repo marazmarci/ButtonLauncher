@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="Settings"
+    android:title="@string/settings"
     android:key="screen">
 
     <PreferenceCategory
-        android:title="Long press primary button"
+        android:title="@string/long_press_primary_button"
         android:key="home">
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Secondary button press"
+        android:title="@string/secondary_button_press"
         android:key="extra">
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Extra actions">
+        android:title="@string/extra_actions">
         <com.brouken.wear.butcher.NumberPickerPreference
             android:key="autoTimer"
-            android:title="Auto Timer"
+            android:title="@string/auto_timer"
             android:defaultValue="3"
             android:icon="@drawable/ic_timer"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Configuration">
+        android:title="@string/configuration">
         <ListPreference
             android:key="timeout"
-            android:title="Timeout"
+            android:title="@string/timeout"
             android:defaultValue="3000"
             android:icon="@drawable/ic_timeout"
             android:entries="@array/pref_timeout_titles"
             android:entryValues="@array/pref_timeout_values"/>
         <SwitchPreference
             android:key="vibrate"
-            android:title="Vibrate"
+            android:title="@string/vibrate"
             android:defaultValue="true"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Other">
+        android:title="@string/other">
         <Preference
-            android:title="Help"
+            android:title="@string/help"
             android:icon="@drawable/ic_help">
             <intent
                 android:targetPackage="com.brouken.wear.butcher"

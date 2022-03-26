@@ -44,7 +44,7 @@ public class HelpActivity extends WearableActivity {
         int buttonCount = WearableButtons.getButtonCount(this);
 
         if (buttonCount >= 1) {
-            labelPrimary = "(" + WearableButtons.getButtonLabel(this, KeyEvent.KEYCODE_STEM_PRIMARY).toString().toLowerCase() + ") ";
+            labelPrimary = "(" + WearableButtons.getButtonLabel(this, KeyEvent.KEYCODE_STEM_PRIMARY).toString().toLowerCase() + ")";
 
             ArrayList<String> labels = new ArrayList<>();
             for (int i = 1; i < buttonCount; i++) {
@@ -52,17 +52,9 @@ public class HelpActivity extends WearableActivity {
                 labels.add(label);
             }
 
-            labelSecondary = "(" + TextUtils.join(", ", labels) + ") ";
+            labelSecondary = "(" + TextUtils.join(", ", labels) + ")";
         }
         
-        textView.setText("Start Button Launcher from your launcher to open this configuration screen.\n" +
-                "\n" +
-                "Long press your watch primary button " + labelPrimary + "to use the first set of shortcut combos.\n" +
-                "\n" +
-                "Map your other watch button " + labelSecondary + "in system settings to Button Launcher to use the other set of shortcut combos. Unfortunately it is not possible to detect what specific custom button was used for launch.\n" +
-                "\n" +
-                "The Default action is what app will be launched if no secondary button is pressed (short or long) before time for launch runs out.\n" +
-                "\n" +
-                "Auto Timer is an additional action that can be executed. Upon launch, it will always start a timer with the configured time (without any confirmation).");
+        textView.setText(getString(R.string.help_screen_text, labelPrimary, labelSecondary));
     }
 }

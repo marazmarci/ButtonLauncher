@@ -122,11 +122,11 @@ public class ConfigActivity extends Activity {
 
             preference.setKey(pref);
             if (shortcutAdditional.equals("default"))
-                preference.setTitle("Default action");
+                preference.setTitle(R.string.default_action);
             else if (shortcutAdditional.endsWith("long"))
-                preference.setTitle("+ Long press");
+                preference.setTitle(R.string.plus_long_press);
             else
-                preference.setTitle("+ Short press");
+                preference.setTitle(R.string.plus_short_press);
 
             categoryHome.addPreference(preference);
 

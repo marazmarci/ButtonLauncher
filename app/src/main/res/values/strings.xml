@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">Button Launcher</string>
+    <string name="config_activity_label">Button Launcher (Config)</string>
+    <string name="no_action_activity_label">Blank action</string>
+    <string name="auto_timer_activity_label">Auto Timer</string>
+    <string name="auto_timer">Auto Timer</string>
+    <string name="extra_actions">Extra actions</string>
+    <string name="secondary_button_press">Secondary button press</string>
+    <string name="long_press_primary_button">Long press primary button</string>
+    <string name="settings">Settings</string>
+    <string name="configuration">Configuration</string>
+    <string name="timeout">Timeout</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="other">Other</string>
+    <string name="help">Help</string>
+    <string name="none">None</string>
+    <string name="default_action">Default action</string>
+    <string name="plus_long_press">+ Long press</string>
+    <string name="plus_short_press">+ Short press</string>
+    <string name="help_screen_text">Start Button Launcher from your launcher to open this configuration screen.\n\nLong press your watch primary button %1$s to use the first set of shortcut combos.\n\nMap your other watch button %2$s in system settings to Button Launcher to use the other set of shortcut combos. Unfortunately it is not possible to detect what specific custom button was used for launch.\n\nThe Default action is what app will be launched if no secondary button is pressed (short or long) before time for launch runs out.\n\nAuto Timer is an additional action that can be executed. Upon launch, it will always start a timer with the configured time (without any confirmation).</string>
 
     <string-array name="pref_timeout_titles">
         <item>1 s</item>

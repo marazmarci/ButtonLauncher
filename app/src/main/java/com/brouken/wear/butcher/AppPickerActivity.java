@@ -196,7 +196,7 @@ public class AppPickerActivity extends Activity {
             // Replaces content of view with correct element from data set
             //viewHolder.mTextView.setText(mDataSet[position]);
             if (mDataSet[position] == null) {
-                viewHolder.mTextView.setText("None");
+                viewHolder.mTextView.setText(R.string.none);
                 viewHolder.mImageView.setImageDrawable(null);
                 return;
             }

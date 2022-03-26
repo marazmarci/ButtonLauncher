@@ -14,20 +14,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
+
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
         <activity
             android:name=".LaunchActivity"
-            android:label="@string/app_name"
             android:exported="true"
             android:launchMode="singleInstance">
             <intent-filter>
@@ -52,7 +49,7 @@
 
         <activity
             android:name=".ConfigActivity"
-            android:label="Button Launcher (Config)"
+            android:label="@string/config_activity_label"
             android:exported="true">
 
             <intent-filter>
@@ -62,7 +59,7 @@
         </activity>
 
         <activity android:name=".AutoTimer"
-            android:label="Auto Timer"
+            android:label="@string/auto_timer_activity_label"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.brouken.wear.butcher.intent.action.AUTO_TIMER" />
@@ -70,7 +67,7 @@
         </activity>
 
         <activity android:name=".NoActionActivity"
-            android:label="Blank action"
+            android:label="@string/no_action_activity_label"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.brouken.wear.butcher.intent.action.NO_ACTION" />
