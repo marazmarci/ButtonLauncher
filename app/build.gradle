@@ -9,6 +9,10 @@ android {
         versionCode 14
         versionName "0.7.4"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
     buildTypes {
         release {
             minifyEnabled false
