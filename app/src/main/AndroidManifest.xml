@@ -28,6 +28,7 @@
         <activity
             android:name=".LaunchActivity"
             android:label="@string/app_name"
+            android:exported="true"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.ASSIST" />
@@ -51,7 +52,8 @@
 
         <activity
             android:name=".ConfigActivity"
-            android:label="Button Launcher (Config)">
+            android:label="Button Launcher (Config)"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,14 +62,16 @@
         </activity>
 
         <activity android:name=".AutoTimer"
-            android:label="Auto Timer">
+            android:label="Auto Timer"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.brouken.wear.butcher.intent.action.AUTO_TIMER" />
             </intent-filter>
         </activity>
 
         <activity android:name=".NoActionActivity"
-            android:label="Blank action">
+            android:label="Blank action"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.brouken.wear.butcher.intent.action.NO_ACTION" />
             </intent-filter>
