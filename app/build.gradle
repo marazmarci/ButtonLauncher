@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 32
     defaultConfig {
-        applicationId "com.brouken.wear.butcher"
+        applicationId "dev.maraz.buttonlauncher.test"
         minSdkVersion 25
         targetSdkVersion 32
         versionCode 14
