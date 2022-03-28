@@ -183,12 +183,7 @@ public class LaunchActivity extends WearableActivity {
                 return;
             }
 
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    launchApp(app, true);
-                }
-            });
+            imageView.setOnClickListener(view -> launchApp(app, true));
         }
     }
 

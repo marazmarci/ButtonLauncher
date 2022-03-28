@@ -61,13 +61,7 @@ public class AppPickerActivity extends Activity {
         }
 
         // Remove Button Launcher from list
-        Iterator<ResolveInfo> resolveInfoIterator = pkgAppsList.iterator();
-        while (resolveInfoIterator.hasNext())  {
-            ResolveInfo resolveInfo = resolveInfoIterator.next();
-            if (resolveInfo.activityInfo.packageName.equals(getPackageName())) {
-                resolveInfoIterator.remove();
-            }
-        }
+        pkgAppsList.removeIf(resolveInfo -> resolveInfo.activityInfo.packageName.equals(getPackageName()));
 
         // TODO: don't add if not set
         Intent timerIntent = new Intent("com.brouken.wear.butcher.intent.action.AUTO_TIMER", null);
@@ -78,7 +72,7 @@ public class AppPickerActivity extends Activity {
         List<ResolveInfo> noActionAppList = mContext.getPackageManager().queryIntentActivities(noActionIntent, 0);
         pkgAppsList.addAll(noActionAppList);
 
-        Collections.sort(pkgAppsList, new ResolveInfo.DisplayNameComparator(mContext.getPackageManager()));
+        pkgAppsList.sort(new ResolveInfo.DisplayNameComparator(mContext.getPackageManager()));
         pkgAppsList.add(0, null);
 
         setContentView(R.layout.activity_app);
@@ -180,19 +174,16 @@ public class AppPickerActivity extends Activity {
         public void onBindViewHolder(ViewHolder viewHolder, final int position) {
             log("Element " + position + " set.");
 
-            viewHolder.mTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mDataSet[position] == null) {
-                        mAppPickerActivity.itemSelected(null, null);
-                        return;
-                    }
-
-                    String pkg = mDataSet[position].activityInfo.packageName;
-                    String cls = mDataSet[position].activityInfo.name;
-                    mAppPickerActivity.itemSelected(pkg, cls);
-
+            viewHolder.mTextView.setOnClickListener(view -> {
+                if (mDataSet[position] == null) {
+                    mAppPickerActivity.itemSelected(null, null);
+                    return;
                 }
+
+                String pkg = mDataSet[position].activityInfo.packageName;
+                String cls = mDataSet[position].activityInfo.name;
+                mAppPickerActivity.itemSelected(pkg, cls);
+
             });
 
             // Replaces content of view with correct element from data set

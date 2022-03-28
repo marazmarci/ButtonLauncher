@@ -149,16 +149,13 @@ public class ConfigActivity extends Activity {
 
             updateSummary(pref, summary);
 
-            preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
+            preference.setOnPreferenceClickListener(preference1 -> {
 
-                    Intent intent = new Intent(getActivity(), AppPickerActivity.class);
-                    intent.putExtra("pref", pref);
-                    startActivityForResult(intent, 0);
+                Intent intent = new Intent(getActivity(), AppPickerActivity.class);
+                intent.putExtra("pref", pref);
+                startActivityForResult(intent, 0);
 
-                    return true;
-                }
+                return true;
             });
         }
 
@@ -257,39 +254,33 @@ public class ConfigActivity extends Activity {
             sBindPreferenceSummaryToValueListener2.onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(preference.getKey(), 3));
         }
 
-        private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener2 = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object value) {
-                int intValue = (int) value;
-                preference.setSummary(intValue + " min");
-                return true;
-            }
+        private static final Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener2 = (preference, value) -> {
+            int intValue = (int) value;
+            preference.setSummary(intValue + " min");
+            return true;
         };
 
-        private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object value) {
-                String stringValue = value.toString();
+        private static final Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
+            String stringValue = value.toString();
 
-                if (preference instanceof ListPreference) {
-                    // For list preferences, look up the correct display value in
-                    // the preference's 'entries' list.
-                    ListPreference listPreference = (ListPreference) preference;
-                    int index = listPreference.findIndexOfValue(stringValue);
+            if (preference instanceof ListPreference) {
+                // For list preferences, look up the correct display value in
+                // the preference's 'entries' list.
+                ListPreference listPreference = (ListPreference) preference;
+                int index = listPreference.findIndexOfValue(stringValue);
 
-                    // Set the summary to reflect the new value.
-                    preference.setSummary(
-                            index >= 0
-                                    ? listPreference.getEntries()[index]
-                                    : null);
+                // Set the summary to reflect the new value.
+                preference.setSummary(
+                        index >= 0
+                                ? listPreference.getEntries()[index]
+                                : null);
 
-                } else {
-                    // For all other preferences, set the summary to the value's
-                    // simple string representation.
-                    preference.setSummary(stringValue);
-                }
-                return true;
+            } else {
+                // For all other preferences, set the summary to the value's
+                // simple string representation.
+                preference.setSummary(stringValue);
             }
+            return true;
         };
     }
 
