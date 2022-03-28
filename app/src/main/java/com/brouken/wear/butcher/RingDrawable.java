@@ -32,14 +32,18 @@ public class RingDrawable extends GradientDrawable {
     }
 
     public void setRingThickness(int thicknessValue) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        if (mGradientState == null) mGradientState = resolveGradientState();
+        if (mGradientState == null) {
+            mGradientState = resolveGradientState();
+        }
         Field thickness = resolveField(mGradientState, "mThickness");
         thickness.setInt(getConstantState(), thicknessValue);
     }
 
     public void setUseLevel(boolean level) throws SecurityException, /*NoSuchFieldException,*/ IllegalArgumentException/*, IllegalAccessException*/ {
         try {
-            if (mGradientState == null) mGradientState = resolveGradientState();
+            if (mGradientState == null) {
+                mGradientState = resolveGradientState();
+            }
             Field useLevel = resolveField(mGradientState, "mUseLevel");
             useLevel.setBoolean(getConstantState(), level);
         } catch (Exception e) {}
@@ -48,7 +52,9 @@ public class RingDrawable extends GradientDrawable {
     private Class<?> resolveGradientState() {
         Class<?>[] classes = GradientDrawable.class.getDeclaredClasses();
         for (Class<?> singleClass : classes) {
-            if (singleClass.getSimpleName().equals("GradientState")) return singleClass;
+            if (singleClass.getSimpleName().equals("GradientState")) {
+                return singleClass;
+            }
         }
         throw new RuntimeException("GradientState could not be found in current GradientDrawable implementation");
     }

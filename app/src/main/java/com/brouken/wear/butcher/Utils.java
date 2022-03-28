@@ -4,7 +4,8 @@ import android.util.Log;
 
 public class Utils {
     public static void log(String text){
-        if (BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG) {
             Log.d("Butcher", text);
+        }
     }
 }

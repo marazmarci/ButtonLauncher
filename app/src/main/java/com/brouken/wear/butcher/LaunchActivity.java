@@ -167,8 +167,9 @@ public class LaunchActivity extends WearableActivity {
 
         int size = (longPressed ? side/10 : side/8);
 
-        if (buttonIndex == -1)
+        if (buttonIndex == -1) {
             size = side / 4;
+        }
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size, size);
         layoutParams.leftMargin = (int) x - layoutParams.width / 2;
@@ -178,8 +179,9 @@ public class LaunchActivity extends WearableActivity {
         if (buttonIndex == -1) {
             final String app = mLaunchActions.getAppForButton(buttonIndex, longPressed);
 
-            if (app == null)
+            if (app == null) {
                 return;
+            }
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -207,8 +209,9 @@ public class LaunchActivity extends WearableActivity {
     private void handleStart(Intent intent) {
         String action = intent.getAction();
         if (action != null) {
-            if (action.equals(Intent.ACTION_ASSIST) || action.equals("android.intent.action.VOICE_ASSIST"))
+            if (action.equals(Intent.ACTION_ASSIST) || action.equals("android.intent.action.VOICE_ASSIST")) {
                 launchedViaAssist = true;
+            }
         }
     }
 
@@ -216,8 +219,9 @@ public class LaunchActivity extends WearableActivity {
         try {
             final String app = mLaunchActions.getAppForButton(button, longPressed);
 
-            if (app == null)
+            if (app == null) {
                 return null;
+            }
 
             String[] appParts = app.split("/");
 
@@ -236,10 +240,12 @@ public class LaunchActivity extends WearableActivity {
             String app = mLaunchActions.getAppForButton(-1, false);
             launchApp(app, !launchedViaAssist);
         } else {
-            if (!launchedViaAssist || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            if (!launchedViaAssist || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrate();
-            if (mLaunchActions.hasDefaultAction())
+            }
+            if (mLaunchActions.hasDefaultAction()) {
                 startCountdown();
+            }
         }
     }
 
@@ -248,8 +254,9 @@ public class LaunchActivity extends WearableActivity {
         super.onStop();
         log("onStop()");
 
-        if (!isFinishing())
+        if (!isFinishing()) {
             finish();
+        }
     }
 
     @Override
@@ -329,13 +336,15 @@ public class LaunchActivity extends WearableActivity {
     }
 
     private void vibrate() {
-        if (!vibrate)
+        if (!vibrate) {
             return;
+        }
 
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = {0, 20};
-        if (vibrator != null)
+        if (vibrator != null) {
             vibrator.vibrate(pattern, -1);
+        }
     }
 
     private void launchAppForShortPressedKey(int keyCode) {
@@ -349,8 +358,9 @@ public class LaunchActivity extends WearableActivity {
     }
 
     private void launchApp(String app, boolean vibrate) {
-        if (app == null)
+        if (app == null) {
             return;
+        }
 
         String[] parts = app.split("/");
 
@@ -359,20 +369,24 @@ public class LaunchActivity extends WearableActivity {
         String action = Intent.ACTION_MAIN;
         String category = Intent.CATEGORY_LAUNCHER;
 
-        if (parts.length > 2)
+        if (parts.length > 2) {
             action = parts[2];
-        if (parts.length > 3)
+        }
+        if (parts.length > 3) {
             category = parts[3];
+        }
 
         launchApp(pkg, cls, action, category, vibrate);
     }
 
     private void launchApp(String pkg, String cls, String action, String category, boolean vibrate) {
-        if (animator != null)
+        if (animator != null) {
             animator.pause();
+        }
 
-        if (isFinishing())
+        if (isFinishing()) {
             return;
+        }
 
         ComponentName componentName = new ComponentName(pkg, cls);
         Intent intent=new Intent(action);
@@ -383,8 +397,9 @@ public class LaunchActivity extends WearableActivity {
         try {
             startActivity(intent);
 
-            if (vibrate || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            if (vibrate || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrate();
+            }
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, "App not found", Toast.LENGTH_SHORT).show();
         } catch (SecurityException e) {

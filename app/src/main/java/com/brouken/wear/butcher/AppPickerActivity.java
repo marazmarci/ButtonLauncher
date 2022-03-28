@@ -51,8 +51,9 @@ public class AppPickerActivity extends Activity {
         List<ResolveInfo> pkgAssistAppsList = mContext.getPackageManager().queryIntentActivities( assistIntent, 0);
 
         for (ResolveInfo resolveInfo : pkgAssistAppsList) {
-            if (resolveInfo.activityInfo.packageName.equals(getPackageName()))
+            if (resolveInfo.activityInfo.packageName.equals(getPackageName())) {
                 continue;
+            }
 
             assistApp = resolveInfo;
             pkgAppsList.add(resolveInfo);
@@ -63,8 +64,9 @@ public class AppPickerActivity extends Activity {
         Iterator<ResolveInfo> resolveInfoIterator = pkgAppsList.iterator();
         while (resolveInfoIterator.hasNext())  {
             ResolveInfo resolveInfo = resolveInfoIterator.next();
-            if (resolveInfo.activityInfo.packageName.equals(getPackageName()))
+            if (resolveInfo.activityInfo.packageName.equals(getPackageName())) {
                 resolveInfoIterator.remove();
+            }
         }
 
         // TODO: don't add if not set

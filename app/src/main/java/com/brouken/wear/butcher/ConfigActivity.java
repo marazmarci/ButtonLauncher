@@ -70,8 +70,9 @@ public class ConfigActivity extends Activity {
 
         private void updateSummary(String pref, String name) {
             Preference preference = findPreference(pref);
-            if (name == null)
+            if (name == null) {
                 name = "None";
+            }
             preference.setSummary(name);
         }
 
@@ -83,8 +84,9 @@ public class ConfigActivity extends Activity {
                 setupPref("home", "default", -1);
                 setupPref("home", "button0long", 0);
             //}
-            if (buttonCount <= 1)
+            if (buttonCount <= 1) {
                 removeCategory("extra");
+            }
 
             if (buttonCount >= 2) {
                 setupPref("home", "button1", 1);
@@ -121,12 +123,13 @@ public class ConfigActivity extends Activity {
             Preference preference = new Preference(getContext());
 
             preference.setKey(pref);
-            if (shortcutAdditional.equals("default"))
+            if (shortcutAdditional.equals("default")) {
                 preference.setTitle(R.string.default_action);
-            else if (shortcutAdditional.endsWith("long"))
+            } else if (shortcutAdditional.endsWith("long")) {
                 preference.setTitle(R.string.plus_long_press);
-            else
+            } else {
                 preference.setTitle(R.string.plus_short_press);
+            }
 
             categoryHome.addPreference(preference);
 
@@ -137,8 +140,9 @@ public class ConfigActivity extends Activity {
                 summary = getAppLabel(app);
 
                 // App uninstalled/disabled -> clean up shortcut
-                if (summary == null)
+                if (summary == null) {
                     savePreferences(pref, null);
+                }
             }
 
             preference.setIcon(getIconForButton(buttonIcon));
@@ -162,11 +166,13 @@ public class ConfigActivity extends Activity {
             Drawable icon = null;
             Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.ic_background);
 
-            if (button >= 0)
+            if (button >= 0) {
                 icon = WearableButtons.getButtonIcon(getContext(), KeyEvent.KEYCODE_STEM_PRIMARY + button);
+            }
 
-            if (icon == null)
+            if (icon == null) {
                 icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_circle);
+            }
 
             LayerDrawable finalDrawable = new LayerDrawable(new Drawable[] {background, icon});
             int inset = (int)(icon.getIntrinsicWidth() / 5f * 2f);
@@ -186,10 +192,11 @@ public class ConfigActivity extends Activity {
 
         public void savePreferences(String key, String value) {
             SharedPreferences.Editor editor = mSharedPreferences.edit();
-            if (value == null)
+            if (value == null) {
                 editor.remove(key);
-            else
+            } else {
                 editor.putString(key, value);
+            }
             editor.apply();
         }
 
@@ -201,25 +208,29 @@ public class ConfigActivity extends Activity {
             String action = Intent.ACTION_MAIN;
             String category = Intent.CATEGORY_LAUNCHER;
 
-            if (parts.length > 2)
+            if (parts.length > 2) {
                 action = parts[2];
-            if (parts.length > 3)
+            }
+            if (parts.length > 3) {
                 category = parts[3];
+            }
 
             return getAppLabel(pkg, cls, action, category);
         }
 
         private String getAppLabel(String pkg, String cls, String action, String category) {
-            if (pkg == null || cls == null)
+            if (pkg == null || cls == null) {
                 return null;
+            }
 
             Intent mainIntent = new Intent(action);
             ComponentName componentName = new ComponentName(pkg, cls);
             mainIntent.addCategory(category);
             mainIntent.setComponent(componentName);
             List<ResolveInfo> pkgAppsList = getContext().getPackageManager().queryIntentActivities( mainIntent, 0);
-            if (pkgAppsList.isEmpty())
+            if (pkgAppsList.isEmpty()) {
                 return null;
+            }
             return pkgAppsList.get(0).activityInfo.loadLabel(getContext().getPackageManager()).toString();
         }
 
