@@ -42,6 +42,8 @@ public class LaunchActivity extends WearableActivity {
 
     private boolean longPressed = false;
 
+    private Integer currentlyHeldDownKeyCode = null;
+
     private LaunchActions mLaunchActions;
 
     @Override
@@ -263,8 +265,12 @@ public class LaunchActivity extends WearableActivity {
 
                 log("onAnimationEnd()");
 
-                String app = mLaunchActions.getAppForButton(-1, false);
-                launchApp(app, true);
+                if (currentlyHeldDownKeyCode == null) {
+                    String app = mLaunchActions.getAppForButton(-1, false);
+                    launchApp(app, true);
+                } else {
+                    launchAppForLongPressedKey(currentlyHeldDownKeyCode);
+                }
             }
         });
 
@@ -278,6 +284,7 @@ public class LaunchActivity extends WearableActivity {
 
         if (keyCode >= KeyEvent.KEYCODE_STEM_1 && keyCode <= KeyEvent.KEYCODE_STEM_3) {
             event.startTracking();
+            currentlyHeldDownKeyCode = keyCode;
             return true;
         }
 
@@ -291,9 +298,9 @@ public class LaunchActivity extends WearableActivity {
 
         if (keyCode >= KeyEvent.KEYCODE_STEM_1 && keyCode <= KeyEvent.KEYCODE_STEM_3) {
             longPressed = true;
+            currentlyHeldDownKeyCode = null;
 
-            String app = mLaunchActions.getAppForButton(keyCode - KeyEvent.KEYCODE_STEM_PRIMARY, true);
-            launchApp(app, true);
+            launchAppForLongPressedKey(keyCode);
 
             return true;
         }
@@ -307,9 +314,9 @@ public class LaunchActivity extends WearableActivity {
         log("onKeyUp");
 
         if (keyCode >= KeyEvent.KEYCODE_STEM_1 && keyCode <= KeyEvent.KEYCODE_STEM_3) {
+            currentlyHeldDownKeyCode = null;
             if (!longPressed) {
-                String app = mLaunchActions.getAppForButton(keyCode - KeyEvent.KEYCODE_STEM_PRIMARY, false);
-                launchApp(app, true);
+                launchAppForShortPressedKey(keyCode);
             }
             return true;
         }
@@ -325,6 +332,16 @@ public class LaunchActivity extends WearableActivity {
         long[] pattern = {0, 20};
         if (vibrator != null)
             vibrator.vibrate(pattern, -1);
+    }
+
+    private void launchAppForShortPressedKey(int keyCode) {
+        String app = mLaunchActions.getAppForButton(keyCode - KeyEvent.KEYCODE_STEM_PRIMARY, false);
+        launchApp(app, true);
+    }
+
+    private void launchAppForLongPressedKey(int keyCode) {
+        String app = mLaunchActions.getAppForButton(keyCode - KeyEvent.KEYCODE_STEM_PRIMARY, true);
+        launchApp(app, true);
     }
 
     private void launchApp(String app, boolean vibrate) {
