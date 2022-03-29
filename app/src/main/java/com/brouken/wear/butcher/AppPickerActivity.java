@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +27,7 @@ public class AppPickerActivity extends Activity {
     private CustomRecyclerAdapter mCustomRecyclerAdapter;
 
     private List<ResolveInfo> pkgAppsList;
-    private ResolveInfo assistApp;
+    private final List<ResolveInfo> assistantApps = new ArrayList<>();
 
     private Context mContext;
 
@@ -55,9 +56,8 @@ public class AppPickerActivity extends Activity {
                 continue;
             }
 
-            assistApp = resolveInfo;
+            assistantApps.add(resolveInfo);
             pkgAppsList.add(resolveInfo);
-            break;
         }
 
         // Remove Button Launcher from list
@@ -110,7 +110,9 @@ public class AppPickerActivity extends Activity {
     }
 
     private boolean isAssistApp(String pkg, String cls) {
-        return (assistApp != null && assistApp.activityInfo.packageName.equals(pkg) && assistApp.activityInfo.name.equals(cls));
+        return assistantApps.stream()
+                .map(resolveInfo -> resolveInfo.activityInfo)
+                .anyMatch(info -> info.packageName.equals(pkg) && info.name.equals(cls));
     }
 
 
