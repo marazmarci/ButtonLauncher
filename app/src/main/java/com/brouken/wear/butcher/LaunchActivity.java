@@ -235,7 +235,7 @@ public class LaunchActivity extends WearableActivity {
             String app = mLaunchActions.getAppForButton(-1, false);
             launchApp(app, !launchedViaAssist);
         } else {
-            if (!launchedViaAssist || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!launchedViaAssist && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrate();
             }
             if (mLaunchActions.hasDefaultAction()) {
@@ -392,7 +392,7 @@ public class LaunchActivity extends WearableActivity {
         try {
             startActivity(intent);
 
-            if (vibrate || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (vibrate) {
                 vibrate();
             }
         } catch (ActivityNotFoundException e) {
