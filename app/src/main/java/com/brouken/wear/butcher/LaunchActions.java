@@ -42,6 +42,7 @@ public class LaunchActions {
         }
     }
 
+    // TODO take primary / secondary button launch into account
     public boolean hasOnlyDefaultAction() {
         return (actionButton0Long == null && actionButton1 == null && actionButton1Long == null);
     }
