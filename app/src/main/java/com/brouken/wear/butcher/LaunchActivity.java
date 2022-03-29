@@ -18,7 +18,6 @@ import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.input.WearableButtons;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -44,6 +43,9 @@ public class LaunchActivity extends WearableActivity {
     private boolean longPressed = false;
 
     private Integer currentlyHeldDownKeyCode = null;
+
+    private Runnable runOnKeyUp = null;
+    private Integer runOnKeyUpKey = null;
 
     private LaunchActions mLaunchActions;
 
@@ -275,7 +277,7 @@ public class LaunchActivity extends WearableActivity {
                     String app = mLaunchActions.getAppForButton(-1, false);
                     launchApp(app, true);
                 } else {
-                    launchAppForLongPressedKey(currentlyHeldDownKeyCode);
+                    launchAppForLongPressedKeyWhenKeyIsReleased(currentlyHeldDownKeyCode, !longPressed);
                 }
             }
         });
@@ -306,7 +308,7 @@ public class LaunchActivity extends WearableActivity {
             longPressed = true;
             currentlyHeldDownKeyCode = null;
 
-            launchAppForLongPressedKey(keyCode);
+            launchAppForLongPressedKeyWhenKeyIsReleased(keyCode, true);
 
             return true;
         }
@@ -321,8 +323,14 @@ public class LaunchActivity extends WearableActivity {
 
         if (keyCode >= KeyEvent.KEYCODE_STEM_1 && keyCode <= KeyEvent.KEYCODE_STEM_3) {
             currentlyHeldDownKeyCode = null;
-            if (!longPressed) {
-                launchAppForShortPressedKey(keyCode);
+            if (runOnKeyUp == null) {
+                if (!longPressed) {
+                    launchAppForShortPressedKey(keyCode);
+                }
+            } else if (runOnKeyUpKey == keyCode) {
+                runOnKeyUpKey = null;
+                runOnKeyUp.run();
+                runOnKeyUp = null;
             }
             return true;
         }
@@ -347,9 +355,15 @@ public class LaunchActivity extends WearableActivity {
         launchApp(app, true);
     }
 
-    private void launchAppForLongPressedKey(int keyCode) {
-        String app = mLaunchActions.getAppForButton(keyCode - KeyEvent.KEYCODE_STEM_PRIMARY, true);
-        launchApp(app, true);
+    private void launchAppForLongPressedKeyWhenKeyIsReleased(int keyCode, boolean vibrate) {
+        runOnKeyUpKey = keyCode;
+        runOnKeyUp = () -> {
+            String app = mLaunchActions.getAppForButton(keyCode - KeyEvent.KEYCODE_STEM_PRIMARY, true);
+            launchApp(app, false);
+        };
+        if (vibrate) {
+            vibrate();
+        }
     }
 
     private void launchApp(String app, boolean vibrate) {
