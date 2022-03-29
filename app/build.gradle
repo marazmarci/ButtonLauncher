@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 
+Properties properties = new Properties()
+def propertiesFile = project.rootProject.file('local.properties')
+if (propertiesFile.exists()) {
+    properties.load(propertiesFile.newDataInputStream())
+}
+
 android {
     compileSdkVersion 32
     defaultConfig {
@@ -13,12 +19,28 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    signingConfigs {
+        release {
+            storeFile file(properties.getProperty('signing.keystore.file'))
+            storePassword properties.getProperty('signing.keystore.password')
+            keyPassword properties.getProperty('signing.key.password')
+            keyAlias properties.getProperty('signing.key.alias')
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        minifiedDebug {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+        }
         debug {
+            signingConfig signingConfigs.release
             minifyEnabled false
             debuggable true
         }
